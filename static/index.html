@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBC Parallel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Outfit:wght@370;500;620&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36">
+            <path d="M18 4 v8" />
+            <path d="M18 12 C18 20 8 20 6 30" />
+            <path d="M18 12 C18 20 28 20 30 30" />
+          </svg>
+        </span>
+        <div>
+          <p class="eyebrow">KBC Parallel</p>
+          <h1>A financial multiverse</h1>
+        </div>
+      </div>
+      <p class="lede">One fictional month, split into the path already underway and a future assembled from a car, a flat, time away, or a different spending level. The picture shows consequences. The decision stays with the customer.</p>
+    </header>
+
+    <section class="current" aria-labelledby="current-heading">
+      <div class="section-heading">
+        <h2 id="current-heading">Current you</h2>
+        <div class="profiles" role="group" aria-label="Fictional customer">
+          <button type="button" class="profile" data-profile="alex" aria-pressed="true">Alex</button>
+          <button type="button" class="profile" data-profile="sam" aria-pressed="false">Sam</button>
+        </div>
+      </div>
+      <p id="customer-line" class="customer-line">Synthetic profile</p>
+      <div class="metrics">
+        <article>
+          <h3>Savings</h3>
+          <p id="metric-savings">—</p>
+        </article>
+        <article>
+          <h3>Income</h3>
+          <p id="metric-income">—</p>
+          <span>net each month</span>
+        </article>
+        <article>
+          <h3>Monthly expenses</h3>
+          <p id="metric-expenses">—</p>
+          <span id="expense-breakdown"></span>
+        </article>
+        <article>
+          <h3>Disposable income</h3>
+          <p id="metric-disposable">—</p>
+          <span>left after expenses, and currently saved</span>
+        </article>
+        <article>
+          <h3>Emergency runway</h3>
+          <p id="metric-runway">—</p>
+          <span id="runway-goal"></span>
+        </article>
+        <article class="deposit">
+          <h3>Apartment deposit</h3>
+          <p id="metric-deposit">—</p>
+          <div class="track" role="meter" id="deposit-meter" aria-label="Apartment deposit progress" aria-valuemin="0" aria-valuemax="40000" aria-valuenow="0">
+            <span id="deposit-bar"></span>
+          </div>
+          <span id="deposit-caption"></span>
+        </article>
+      </div>
+    </section>
+
+    <section class="studio" aria-labelledby="studio-heading">
+      <div class="section-heading">
+        <h2 id="studio-heading">Assemble a future</h2>
+        <p>Turn on any combination. The other path updates from the same budget.</p>
+      </div>
+      <div class="presets" role="group" aria-label="Example futures">
+        <button type="button" data-preset="city" aria-pressed="false">City car</button>
+        <button type="button" data-preset="family" aria-pressed="true">Family car</button>
+        <button type="button" data-preset="flat">Bigger flat</button>
+        <button type="button" data-preset="leave">Six months away</button>
+        <button type="button" data-preset="spend">Spend less</button>
+        <button type="button" data-preset="stack">Car and a flat</button>
+        <button type="button" data-preset="clear">Clear</button>
+      </div>
+      <div class="decisions">
+        <article class="decision" id="card-car">
+          <header>
+            <div>
+              <h3>Buy a car</h3>
+              <p>Down payment, loan, and a monthly allowance for insurance, fuel, and maintenance.</p>
+            </div>
+            <label class="switch"><input id="car-enabled" type="checkbox" checked> On</label>
+          </header>
+          <fieldset id="car-fields">
+            <label>
+              <span>Car price <output id="price-out"></output></span>
+              <input id="car-price" type="range" min="8000" max="60000" step="500" value="32000">
+            </label>
+            <label>
+              <span>Down payment <output id="down-out"></output></span>
+              <input id="down-payment" type="range" min="0" max="32000" step="500" value="4000">
+            </label>
+            <label>
+              <span>Loan duration <output id="years-out"></output></span>
+              <input id="loan-years" type="range" min="1" max="8" step="1" value="6">
+            </label>
+            <label>
+              <span>Monthly running costs <output id="running-out"></output></span>
+              <input id="running-cost" type="range" min="0" max="500" step="10" value="280">
+            </label>
+          </fieldset>
+        </article>
+
+        <article class="decision" id="card-apartment">
+          <header>
+            <div>
+              <h3>More expensive apartment</h3>
+              <p>Higher rent from month 1, plus an optional deposit taken from savings.</p>
+            </div>
+            <label class="switch"><input id="apartment-enabled" type="checkbox"> On</label>
+          </header>
+          <fieldset id="apartment-fields" disabled>
+            <label>
+              <span>Extra rent <output id="rent-out"></output></span>
+              <input id="extra-rent" type="range" min="50" max="1200" step="25" value="350">
+            </label>
+            <label>
+              <span>Deposit <output id="deposit-out"></output></span>
+              <input id="deposit" type="range" min="0" max="8000" step="100" value="1800">
+            </label>
+          </fieldset>
+        </article>
+
+        <article class="decision" id="card-leave">
+          <header>
+            <div>
+              <h3>Time away from work</h3>
+              <p>Income drops for a chosen stretch, then returns to the amount earned today.</p>
+            </div>
+            <label class="switch"><input id="leave-enabled" type="checkbox"> On</label>
+          </header>
+          <fieldset id="leave-fields" disabled>
+            <label>
+              <span>Months away <output id="leave-out"></output></span>
+              <input id="leave-months" type="range" min="1" max="12" step="1" value="6">
+            </label>
+            <label>
+              <span>Income kept <output id="kept-out"></output></span>
+              <input id="income-kept" type="range" min="0" max="100" step="5" value="0">
+            </label>
+          </fieldset>
+        </article>
+
+        <article class="decision" id="card-spending">
+          <header>
+            <div>
+              <h3>Different spending</h3>
+              <p>Change variable spending. The savings rate moves with whatever is left.</p>
+            </div>
+            <label class="switch"><input id="spending-enabled" type="checkbox"> On</label>
+          </header>
+          <fieldset id="spending-fields" disabled>
+            <label>
+              <span>Variable spending <output id="spend-out"></output></span>
+              <input id="variable-spend" type="range" min="200" max="2200" step="25" value="650">
+            </label>
+          </fieldset>
+        </article>
+      </div>
+    </section>
+
+    <section class="futures" aria-labelledby="futures-heading">
+      <div class="section-heading">
+        <h2 id="futures-heading">Parallel futures</h2>
+        <p id="fork-caption">Today splits into the current path and the future assembled above.</p>
+      </div>
+
+      <div class="fork">
+        <div class="today">
+          <span>Today</span>
+          <strong id="today-savings">—</strong>
+        </div>
+        <svg class="fork-lines" viewBox="0 0 1000 88" aria-hidden="true">
+          <path class="line-current" d="M500 2 C500 46 210 46 120 86" />
+          <path class="line-car" d="M500 2 C500 46 790 46 880 86" />
+        </svg>
+        <div class="path-labels">
+          <span class="swatch current">Current Path</span>
+          <span class="swatch future" id="future-swatch">Buy a car</span>
+        </div>
+      </div>
+
+      <div class="branches">
+        <article class="branch branch-current">
+          <header>
+            <h3>Current Path</h3>
+            <p>No new loan, rent change, income gap, or spending change.</p>
+          </header>
+          <dl id="current-facts"></dl>
+        </article>
+        <article class="branch branch-future">
+          <header>
+            <h3 id="future-title">Buy a car</h3>
+            <p id="rate-note">The mock loan rate applies only when a car is financed.</p>
+          </header>
+          <div id="future-details"></div>
+          <dl id="future-facts"></dl>
+        </article>
+      </div>
+
+      <figure class="chart-card">
+        <figcaption>
+          <div>
+            <h3>How savings diverge</h3>
+            <p id="assumption-note"></p>
+          </div>
+          <div class="legend">
+            <span class="swatch current">Current Path</span>
+            <span class="swatch future" id="legend-future">Buy a car</span>
+          </div>
+        </figcaption>
+        <div class="chart-frame">
+          <svg id="chart" viewBox="0 0 860 390" role="img" aria-label="Savings on both paths over 36 months"></svg>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+        <p id="chart-readout" class="readout"></p>
+      </figure>
+    </section>
+
+    <section class="consequences" aria-labelledby="consequences-heading" aria-live="polite">
+      <div class="section-heading">
+        <h2 id="consequences-heading">Consequences</h2>
+        <p>Trade-offs between the two paths. Not a recommendation.</p>
+      </div>
+      <ul id="statements"></ul>
+      <p id="error" class="error" hidden></p>
+    </section>
+
+    <section class="peers" aria-labelledby="peers-heading">
+      <div class="section-heading">
+        <h2 id="peers-heading">Similar financial profiles</h2>
+        <p class="pill">Synthetic demo data</p>
+      </div>
+      <ul id="traits" class="traits"></ul>
+      <div id="peer-statements"></div>
+      <p id="peer-disclaimer" class="disclaimer"></p>
+    </section>
+
+    <footer>
+      <p>KBC Parallel is a hackathon prototype. Alex and Sam are fictional. Every figure is a deterministic simulation of synthetic inputs, not advice and not a live banking balance.</p>
+    </footer>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
